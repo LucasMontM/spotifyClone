@@ -7,11 +7,10 @@ import { AppRotas } from './app.route';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-
-
   ],
   imports: [
     BrowserModule,
