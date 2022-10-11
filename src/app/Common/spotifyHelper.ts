@@ -1,4 +1,4 @@
-import { newMusica } from 'src/app/Common/factories';
+import { newMusica, newPlaylist } from 'src/app/Common/factories';
 import { IMusica } from './../interfaces/IMuscia';
 import { IArtista } from './../interfaces/IArtistas';
 import { IUsuario } from './../interfaces/IUsuario';
@@ -21,7 +21,19 @@ export function SpotifyPlaylistParaPlaylist(playlist: SpotifyApi.PlaylistObjectS
   };
 }
 
-export function SpotifyArtistaParaArtistta(spotifyArtista: SpotifyApi.ArtistObjectFull) : IArtista{
+export function SpotifySinglePlaylistParaPlaylist(playlist: SpotifyApi.SinglePlaylistResponse){
+  if (!playlist)
+  return newPlaylist();
+
+  return {
+    id: playlist.id,
+    nome: playlist.name,
+    imagemUrl: playlist.images.shift().url,
+    musicas: []
+  }
+}
+
+export function SpotifyArtistaParaArtista(spotifyArtista: SpotifyApi.ArtistObjectFull) : IArtista{
   return{
     id: spotifyArtista.id,
     imagemUrl: spotifyArtista.images.sort((a,b) => a.width = b.width).pop().url,

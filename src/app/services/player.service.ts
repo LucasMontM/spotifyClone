@@ -11,31 +11,34 @@ import { BehaviorSubject,  } from 'rxjs';
 export class PlayerService {
 
   musicaAtual = new BehaviorSubject<IMusica>(newMusica());
-  timerId: any = null
+  timerId: any = null;
 
   constructor(private spotifyService: SpotifyService) {
-      this.obterMusicaAtual();
-   }
+    this.obterMusicaAtual();
+  }
 
   async obterMusicaAtual(){
-    clearImmediate(this.timerId)
+    clearTimeout(this.timerId);
+
+    // Obtenho a musica
     const musica = await this.spotifyService.obterMusicaAtual();
     this.definirMusicaAtual(musica);
 
+    // Causo loop
     this.timerId = setInterval(async () => {
       await this.obterMusicaAtual();
-    }, 3000)
+    }, 5000)
   }
 
   definirMusicaAtual(musica: IMusica){
-    this.musicaAtual.next(musica)
+    this.musicaAtual.next(musica);
   }
 
   async voltarMusica(){
-    await this.spotifyService.voltarMusica()
+    await this.spotifyService.voltarMusica();
   }
 
-  async proximaMusica(){
-    await this.spotifyService.proximaMusica()
+  async proximaMusica() {
+    await this.spotifyService.proximaMusica();
   }
 }
